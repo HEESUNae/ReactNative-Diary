@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "828998890869",
+    "project_id": "rn-test-project-e125c",
+    "storage_bucket": "rn-test-project-e125c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828998890869:android:7e37caa704147488894f3c",
+        "android_client_info": {
+          "package_name": "com.fastcampus.rn.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828998890869-9f0emcg72cg1rfgq0j5niack84v8cl8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwqbVi_8TvnnN09B-lvCCtEEv4rz-h-Tc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828998890869-9f0emcg72cg1rfgq0j5niack84v8cl8b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828998890869-rkni8d37bk8qq2uf54alcn206uasi8ct.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fastcampus.rn.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828998890869:android:cbef823f815b0a2d894f3c",
+        "android_client_info": {
+          "package_name": "com.myapp.diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828998890869-9f0emcg72cg1rfgq0j5niack84v8cl8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwqbVi_8TvnnN09B-lvCCtEEv4rz-h-Tc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828998890869-9f0emcg72cg1rfgq0j5niack84v8cl8b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828998890869-rkni8d37bk8qq2uf54alcn206uasi8ct.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fastcampus.rn.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
