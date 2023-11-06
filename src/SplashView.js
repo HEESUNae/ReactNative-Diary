@@ -52,7 +52,6 @@ const SplashView = ({ onFinishLoad }) => {
       .once('value')
       .then((snapshot) => snapshot.val());
 
-    console.log('userInfo', userInfo);
     setUserInfo(userInfo);
     onFinishLoad();
   }, []);
