@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
-import { stateUserInfo } from '../states/statusUserInfo';
+import { stateUserInfo } from '../states/stateUserInfo';
 import { useImagePickAndUpload } from '../hooks/useImagePickAndUpload';
 import database from '@react-native-firebase/database';
 

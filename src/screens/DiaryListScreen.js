@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, FlatList, Image, useWindowDimensions, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -6,6 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from '../components/header/Header';
 import Icon from '../components/Icon';
 import Button from '../components/Button';
+import { useRecoilValue } from 'recoil';
+import { stateDiaryList } from '../states/stateDiaryList';
 
 const DiaryListScreen = () => {
   const navigation = useNavigation();
@@ -19,39 +21,14 @@ const DiaryListScreen = () => {
     navigation.navigate('AddDiary');
   }, []);
 
-  const [data, setData] = useState([
-    {
-      id: 0,
-      title: 'TITLE_01',
-      content: 'CONTENT_01',
-      createAt: '2023-11-01',
-      updateAt: '2023-11-05',
-      imageUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png',
-    },
-    {
-      id: 1,
-      title: 'TITLE_02',
-      content: 'CONTENT_02',
-      createAt: '2023-11-01',
-      updateAt: '2023-11-05',
-      imageUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png',
-    },
-    {
-      id: 2,
-      title: 'TITLE_03',
-      content: 'CONTENT_03',
-      createAt: '2023-11-01',
-      updateAt: '2023-11-05',
-      imageUrl: null,
-    },
-  ]);
+  const data = useRecoilValue(stateDiaryList);
 
   return (
     <View style={{ flex: 1 }}>
       <Header>
         <View style={styles.headerBetween}>
           <Header.Title title="DiaryListScreen" />
-          <Icon name="settings" onPress={onPressSettings} />
+          <Icon name="settings" onPress={onPressSettings} size={20} />
         </View>
       </Header>
       <FlatList
@@ -64,10 +41,10 @@ const DiaryListScreen = () => {
             }}
           >
             <View style={{ paddingVertical: 12 }}>
-              {item.imageUrl !== null && (
+              {item.photoUrl !== null && (
                 <>
                   <Image
-                    source={{ uri: item.imageUrl }}
+                    source={{ uri: item.photoUrl }}
                     width={width - 24 * 2}
                     height={(width - 24 * 2) * 0.5}
                     style={styles.flatListImage}
@@ -76,7 +53,7 @@ const DiaryListScreen = () => {
               )}
               <View style={styles.flatListContent}>
                 <View>
-                  <Text>{item.title}</Text>
+                  <Text style={styles.flatListTitle}>{item.title}</Text>
                   <Text>{item.content}</Text>
                 </View>
                 <Text>{item.updateAt}</Text>
@@ -106,11 +83,15 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     paddingHorizontal: 24,
-    paddingVertical: 32,
+    paddingVertical: 16,
   },
   flatListImage: {
     borderRadius: 8,
     marginBottom: 4,
+  },
+  flatListTitle: {
+    fontSize: 16,
+    marginVertical: 8,
   },
   flatListContent: {
     flexDirection: 'row',
@@ -124,7 +105,9 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'tomato',
+    backgroundColor: 'green',
+    borderWidth: 2,
+    borderColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

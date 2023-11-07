@@ -6,11 +6,14 @@ import auth from '@react-native-firebase/auth';
 
 import database from '@react-native-firebase/database';
 import { useSetRecoilState } from 'recoil';
-import { stateUserInfo } from './states/statusUserInfo';
+import { stateUserInfo } from './states/stateUserInfo';
+import { useGetDiaryList } from './hooks/useGetDiaryList';
 
 const SplashView = ({ onFinishLoad }) => {
   const [showLoginButton, setShowLoginButton] = useState(false);
   const setUserInfo = useSetRecoilState(stateUserInfo);
+  const runGetDiaryList = useGetDiaryList();
+
   // 유저 식별
   const signInUserIdentify = useCallback(async (idToken) => {
     // 토큰 자격증명
@@ -52,7 +55,10 @@ const SplashView = ({ onFinishLoad }) => {
       .once('value')
       .then((snapshot) => snapshot.val());
 
+    // 로그인한 유저 정보 recoil에 저장
     setUserInfo(userInfo);
+    // 유저가 작성한 글 가져오기
+    runGetDiaryList(userInfo);
     onFinishLoad();
   }, []);
 
