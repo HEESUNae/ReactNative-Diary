@@ -5,13 +5,16 @@ import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/go
 import auth from '@react-native-firebase/auth';
 
 import database from '@react-native-firebase/database';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { stateUserInfo } from './states/stateUserInfo';
 import { useGetDiaryList } from './hooks/useGetDiaryList';
+import PasswordInputBox from './components/PasswordInputBox';
 
 const SplashView = ({ onFinishLoad }) => {
   const [showLoginButton, setShowLoginButton] = useState(false);
-  const setUserInfo = useSetRecoilState(stateUserInfo);
+  const [showPassword, setShowPassword] = useState(false);
+  const [inputPassword, setInputPassword] = useState('');
+  const [userInfo, setUserInfo] = useRecoilState(stateUserInfo);
   const runGetDiaryList = useGetDiaryList();
 
   // 유저 식별
@@ -58,7 +61,13 @@ const SplashView = ({ onFinishLoad }) => {
     // 로그인한 유저 정보 recoil에 저장
     setUserInfo(userInfo);
     // 유저가 작성한 글 가져오기
-    runGetDiaryList(userInfo);
+    await runGetDiaryList(userInfo);
+
+    if (userInfo.password !== '') {
+      setShowPassword(true);
+      return;
+    }
+
     onFinishLoad();
   }, []);
 
@@ -89,6 +98,24 @@ const SplashView = ({ onFinishLoad }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       {showLoginButton && <GoogleSigninButton onPress={onPressGoogleLogin} />}
+      {showPassword && (
+        <PasswordInputBox
+          value={inputPassword}
+          onChangeText={async (text) => {
+            setInputPassword(text);
+            if (text.length === 4) {
+              if (userInfo.password === text) {
+                const now = new Date().toISOString();
+                const userDB = `/users/${userInfo.uid}`;
+                await database().ref(userDB).update({
+                  lastLoginAt: now,
+                });
+                onFinishLoad();
+              }
+            }
+          }}
+        />
+      )}
     </View>
   );
 };
