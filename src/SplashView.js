@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
@@ -11,14 +11,17 @@ import { useGetDiaryList } from './hooks/useGetDiaryList';
 import PasswordInputBox from './components/PasswordInputBox';
 
 const SplashView = ({ onFinishLoad }) => {
+  const [loading, setLoading] = useState(false);
   const [showLoginButton, setShowLoginButton] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inputPassword, setInputPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(null);
   const [userInfo, setUserInfo] = useRecoilState(stateUserInfo);
   const runGetDiaryList = useGetDiaryList();
 
   // 유저 식별
   const signInUserIdentify = useCallback(async (idToken) => {
+    setLoading(true);
     // 토큰 자격증명
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     // 로그인 시도 (성공시 사용자 정보 반환)
@@ -65,6 +68,7 @@ const SplashView = ({ onFinishLoad }) => {
 
     if (userInfo.password !== '') {
       setShowPassword(true);
+      setLoading(false);
       return;
     }
 
@@ -87,6 +91,7 @@ const SplashView = ({ onFinishLoad }) => {
       const { idToken } = await GoogleSignin.signInSilently();
       signInUserIdentify(idToken);
     } catch (e) {
+      setLoading(false);
       setShowLoginButton(true);
     }
   }, []);
@@ -100,6 +105,7 @@ const SplashView = ({ onFinishLoad }) => {
       {showLoginButton && <GoogleSigninButton onPress={onPressGoogleLogin} />}
       {showPassword && (
         <PasswordInputBox
+          errorMessage={passwordError}
           value={inputPassword}
           onChangeText={async (text) => {
             setInputPassword(text);
@@ -111,11 +117,15 @@ const SplashView = ({ onFinishLoad }) => {
                   lastLoginAt: now,
                 });
                 onFinishLoad();
+              } else {
+                setInputPassword('');
+                setPasswordError('비밀번호가 다릅니다.');
               }
             }
           }}
         />
       )}
+      {loading && <ActivityIndicator />}
     </View>
   );
 };
